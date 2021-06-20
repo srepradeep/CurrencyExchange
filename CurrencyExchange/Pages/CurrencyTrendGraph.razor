@@ -1,0 +1,31 @@
+﻿@inherits CurrencyTrendGraphBase
+@using CurrencyExchange.Components
+
+<div class="container" style="border: 1px groove #e9ecef; background-color: #e9ecef; border-radius: 10px ">
+    <div class="row">
+        <h6 style="color:blue;font:bolder">Select a currency and timeframe to see the currency value trend</h6>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <select class="form-control selectpicker " @onchange="SetChartCurrencyValues">
+                <option>--select--</option>
+                @foreach (var item in CurrencyRate.CurrencyRateDictionary)
+                {
+                    <option value="@item.Key">@item.Key</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control selectpicker " @onchange="SetChartTrendValue">
+                <option>--select--</option>
+                <option value="5">Last 5 Days</option>
+                <option value="10">Last 10 Days </option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <HighChart Json="@jsonString"></HighChart>
+        </div>
+    </div>
+</div>

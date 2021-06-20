@@ -1,0 +1,26 @@
+﻿@inherits CurrencyHistorySearchBase
+
+<div class="container" style="border: 1px groove #e9ecef; background-color: #e9ecef; border-radius: 10px ">
+    <h6 style="color:blue;font:bolder">Search a currency and date to find rate</h6>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <input @bind="SearchByCurrencyAndDate" @onblur="OnGetCurrency" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <input type="date" class="form-control" value="@TodaysDate.ToString("yyyy-MM-dd")" @onchange="@( (args) => DateChanged(args))" />
+        </div>
+        <div class="col-sm-3">
+            <input type="submit" disabled="@IsdateSearchDisabled" @onclick="GetCurrencyValuesOn" class="btn btn-outline-primary" value=" Go " />
+        </div>
+        @*<div class="col-sm-2">
+                <label style="font:bolder;color:blueviolet">@SearchCurrencyDateExchangeValue</label>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <label style="font:bolder;color:blueviolet">@SearchedCurencyDate</label>
+        </div>
+    </div>
+</div>

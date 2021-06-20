@@ -1,0 +1,23 @@
+﻿@inherits CurrencySearchBase
+
+<div class="container " style="border: 1px groove #e9ecef; background-color: #e9ecef; border-radius: 10px ">
+    <h6 style="color:blue;font:bolder">Search a currency to see latest price</h6>
+    <div class="row">
+        <div class="col-sm-3">
+            <form>
+                <div class="form-group">
+                    <input @bind="SearchByCurrency" @onblur="OnSearch" class="form-control" />
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-3">
+            <input type="submit" disabled="@IsSearchDisabled" @onclick="GetLatestCurrencyValues" class="btn btn-outline-primary" value=" Go " />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <label style="font:bolder;color:blueviolet">@SearchedCurency</label>
+        </div>
+    </div>
+</div>
+

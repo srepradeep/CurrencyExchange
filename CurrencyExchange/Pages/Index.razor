@@ -1,0 +1,95 @@
+﻿@page "/"
+@using CurrencyExchange.Data
+@using CurrencyExchange.Service
+@using CurrencyExchange.Pages
+@using CurrencyExchange.Components
+@inject IRatesService RatesService
+@inject IJSRuntime jsRunTime
+
+<h3>Currency Rates </h3>
+@if (currencyRate == null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="row">
+        <div class="column">
+            <div class="container" style="border: 1px groove #e9ecef; background-color: #e9ecef; border-radius: 10px ">
+                <h6 style="color:blue;font:bolder">Please select a currency to see the latest price</h6>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <select class="form-control selectpicker " @onchange="SetCurrencyValues">
+                            <option>--select--</option>
+                            @foreach (var item in currencyRate.CurrencyRateDictionary)
+                            {
+                                <option value="@item.Key">@item.Key</option>
+                            }
+                        </select>
+                    </div>
+                    @*<div class="col-lg" style="font:bolder;color:blueviolet">
+                            <label>@SelectedCurrencyValue</label>
+                        </div>*@
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-10">
+                        <label style="font:bolder;color:blueviolet">@SelectedCurrencyValue</label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <CurrencySearch CurrencyRate="currencyRate"></CurrencySearch>
+
+            <br />
+            <CurrencyHistorySearch CurrencyRate="currencyRate"></CurrencyHistorySearch>
+        </div>
+        <div class="column">
+            <CurrencyTrendGraph CurrencyRate="currencyRate"></CurrencyTrendGraph>
+            </div>
+        </div>
+
+
+}
+
+@code{
+
+    public CurrencyRates currencyRate { get; set; }
+    public string SelectedCurrency { get; set; }
+    public string SelectedCurrencyValue { get; set; }
+    public string SelectedCurrencyDesc { get; set; }
+
+
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        currencyRate = await Task<CurrencyRates>.Run(() => RatesService.GetLatestCurrencyExchangeRates());
+    }
+
+    void SetCurrencyValues(ChangeEventArgs e)
+    {
+        SelectedCurrency = e.Value.ToString();
+        if (!string.IsNullOrWhiteSpace(SelectedCurrency) && SelectedCurrency != "--select--")
+        {
+            SelectedCurrencyValue = $"Current Rate of " +
+                $"{currencyRate.CurrencyDescription[SelectedCurrency]} is " +
+                $"{ currencyRate.CurrencyRateDictionary[SelectedCurrency]}";
+        }
+        else
+        {
+            SelectedCurrencyValue = "";
+        }
+    }
+
+    
+
+
+
+    //private RateChart RateChartObject { get; set; }
+
+
+
+    
+}
+
